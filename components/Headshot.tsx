@@ -16,6 +16,19 @@ import { hero } from "@/lib/content";
  * a missing file never flashes a broken-image icon (the native error can fire
  * before React hydrates, so an onError handler alone isn't reliable).
  */
+/*
+ * Framing controls for the square headshot slot. The image is cropped to fill
+ * the square (object-cover), so you can drop in any photo and tune it here:
+ *
+ *   ZOOM  — 1 = no zoom (shows head + shoulders). Raise toward 1.4 to crop in
+ *           closer on the face. (For best quality, also crop the photo itself.)
+ *   FOCUS — which part to keep centered. "center 25%" pulls the framing UP
+ *           toward the face (good for most portraits). Use "center" for middle,
+ *           "center 10%" for higher, "center 40%" for lower.
+ */
+const ZOOM = 1.15;
+const FOCUS = "center 25%";
+
 export default function Headshot() {
   const [src, setSrc] = useState<string | null>(null);
 
@@ -32,7 +45,12 @@ export default function Headshot() {
     <div className="gradient-border relative mx-auto aspect-square w-44 overflow-hidden rounded-2xl sm:w-56 md:w-64 lg:w-72">
       {src ? (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={src} alt={hero.headshotAlt} className="h-full w-full object-cover" />
+        <img
+          src={src}
+          alt={hero.headshotAlt}
+          className="h-full w-full object-cover"
+          style={{ objectPosition: FOCUS, transform: ZOOM !== 1 ? `scale(${ZOOM})` : undefined }}
+        />
       ) : (
         <div
           className="flex h-full w-full flex-col items-center justify-center gap-3 bg-surface-2 text-center"
