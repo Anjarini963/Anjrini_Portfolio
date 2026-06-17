@@ -26,7 +26,7 @@ import { hero } from "@/lib/content";
  *           toward the face (good for most portraits). Use "center" for middle,
  *           "center 10%" for higher, "center 40%" for lower.
  */
-const ZOOM = 1.15;
+const ZOOM: number = 1.15;
 const FOCUS = "center 25%";
 
 export default function Headshot() {
