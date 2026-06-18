@@ -11,9 +11,9 @@ import SocialLinks from "./SocialLinks";
 export default function Hero() {
   return (
     <section id="top" className="relative overflow-hidden">
-      {/* Aurora glow + dotted grid, hero-only and behind content. */}
+      {/* Aurora glow, hero-only and behind content. (The dotted grid is now a
+          site-wide layer in page.tsx.) */}
       <div className="aurora-glow pointer-events-none absolute inset-0" aria-hidden />
-      <div className="dotted-grid pointer-events-none absolute inset-0" aria-hidden />
 
       <div className="relative mx-auto flex max-w-5xl flex-col gap-12 px-5 pb-20 pt-20 sm:px-8 sm:pb-28 sm:pt-28 md:flex-row md:items-center md:gap-16">
         {/* Copy */}

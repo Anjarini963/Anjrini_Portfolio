@@ -179,6 +179,63 @@ body {
   background-size: 100% 1.5px;
 }
 
+/* ---- Cursor spotlight (gimmick) ----------------------------------------- */
+
+.cursor-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 15rem;
+  height: 15rem;
+  margin: -7.5rem 0 0 -7.5rem; /* center the glow on the cursor */
+  pointer-events: none;
+  z-index: 40; /* above content, below the sticky nav (z-50) */
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  will-change: transform;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--accent) 13%, transparent),
+    transparent 70%
+  );
+  mix-blend-mode: screen;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor-glow {
+    display: none;
+  }
+}
+
+/* ---- Project card sheen (gimmick) --------------------------------------- */
+
+/* A sage highlight that tracks the cursor within a card; --mx/--my are set on
+   hover via JS. Sits behind the card's text (negative z within the card's own
+   isolated stacking context) so it lifts the surface without dimming content. */
+.card-sheen {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  background: radial-gradient(
+    16rem 16rem at var(--mx, 50%) var(--my, 0%),
+    color-mix(in srgb, var(--accent) 16%, transparent),
+    transparent 60%
+  );
+}
+.group:hover .card-sheen {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-sheen {
+    display: none;
+  }
+}
+
 /* ---- Scroll-reveal -------------------------------------------------------- */
 
 .reveal {

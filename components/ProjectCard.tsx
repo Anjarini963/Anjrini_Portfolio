@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useId, useState, type MouseEvent } from "react";
 import type { Project } from "@/lib/content";
 import { PlusIcon } from "./icons";
 
@@ -16,10 +16,21 @@ export default function ProjectCard({ project }: { project: Project }) {
     ? "gradient-border"
     : "border border-line bg-surface";
 
+  // Track the cursor within the card so the sheen highlight follows it.
+  function handleMove(e: MouseEvent<HTMLElement>) {
+    const rect = e.currentTarget.getBoundingClientRect();
+    e.currentTarget.style.setProperty("--mx", `${e.clientX - rect.left}px`);
+    e.currentTarget.style.setProperty("--my", `${e.clientY - rect.top}px`);
+  }
+
   return (
     <article
-      className={`group flex h-full flex-col rounded-2xl p-6 transition-transform duration-300 hover:-translate-y-1 sm:p-7 ${frame}`}
+      onMouseMove={handleMove}
+      className={`group relative isolate flex h-full flex-col rounded-2xl p-6 transition-transform duration-300 hover:-translate-y-1 sm:p-7 ${frame}`}
     >
+      {/* Cursor-tracking sage sheen (behind the text). */}
+      <span aria-hidden className="card-sheen" />
+
       <div className="flex items-start justify-between gap-4">
         <span className="font-mono text-xs text-muted">{project.year}</span>
         {project.badge && (
