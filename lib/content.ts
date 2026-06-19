@@ -23,10 +23,9 @@ export const profile = {
 
 export const links = {
   email: "abdullahanjarini@gmail.com",
-  // TODO: replace with the real GitHub profile URL.
-  github: "https://github.com/your-username",
-  // TODO: replace with the real LinkedIn profile URL.
-  linkedin: "https://linkedin.com/in/your-handle",
+  github: "https://github.com/anjarini963",
+  linkedin:
+    "https://www.linkedin.com/in/abdullah-ahmad-firas-aktam-anjrini-a41510251/",
   cv: "/0626-CV-AbdullahAnjrini.pdf",
 };
 
@@ -65,6 +64,12 @@ export const about = {
 };
 
 export type Project = {
+  /**
+   * Stable, URL-safe id. MUST match the folder name under
+   * public/projects/<slug>/ — that folder is where this project's screenshots
+   * live (see lib/shots.ts). Renaming a slug means renaming its folder too.
+   */
+  slug: string;
   title: string;
   year: string;
   summary: string;
@@ -74,10 +79,18 @@ export type Project = {
   badge?: string;
   /** Featured projects get the sage→teal gradient hairline border. */
   featured?: boolean;
+  /**
+   * Screenshots shown as a carousel inside the detail modal. POPULATED
+   * AUTOMATICALLY at build time from public/projects/<slug>/ — do not set this by
+   * hand. When that folder is missing or empty, the modal opens text-only with no
+   * image area. See lib/shots.ts and components/Projects.tsx.
+   */
+  shots?: string[];
 };
 
 export const projects: Project[] = [
   {
+    slug: "pitchiq",
     title: "PitchIQ — AI Sales-Call Coaching Platform",
     year: "2026",
     summary:
@@ -89,6 +102,7 @@ export const projects: Project[] = [
     featured: true,
   },
   {
+    slug: "procurement-assistant",
     title: "AI Procurement Assistant",
     year: "2026",
     summary:
@@ -99,6 +113,7 @@ export const projects: Project[] = [
     featured: true,
   },
   {
+    slug: "fake-news-detector",
     title: "Arabic Fake-News Detection Browser Extension",
     year: "2025",
     summary:
@@ -109,6 +124,7 @@ export const projects: Project[] = [
     badge: "Final Year Project",
   },
   {
+    slug: "flutter-supabase-app",
     title: "Full-Stack Flutter App + Supabase Backend",
     year: "2024",
     summary:

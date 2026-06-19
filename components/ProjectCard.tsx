@@ -1,17 +1,21 @@
 "use client";
 
-import { useId, useState, type MouseEvent } from "react";
+import { type MouseEvent } from "react";
 import type { Project } from "@/lib/content";
-import { PlusIcon } from "./icons";
+import { ArrowRightIcon } from "./icons";
 
 /**
- * One project card. Hover lifts it slightly; the "details" toggle expands a
- * description panel. Featured cards carry the sage→teal gradient hairline.
+ * One project card in the grid — clean, text-only. The whole card is a click
+ * target that opens the detail modal (see ProjectModal). Hover lifts it and
+ * runs the cursor sheen; featured cards carry the sage→teal gradient hairline.
  */
-export default function ProjectCard({ project }: { project: Project }) {
-  const [open, setOpen] = useState(false);
-  const detailId = useId();
-
+export default function ProjectCard({
+  project,
+  onOpen,
+}: {
+  project: Project;
+  onOpen: () => void;
+}) {
   const frame = project.featured
     ? "gradient-border"
     : "border border-line bg-surface";
@@ -48,32 +52,11 @@ export default function ProjectCard({ project }: { project: Project }) {
         {project.summary}
       </p>
 
-      {/* Expandable detail */}
-      <div
-        id={detailId}
-        className={`grid transition-all duration-300 ease-out ${
-          open ? "mt-3 grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
-        }`}
-      >
-        <div className="overflow-hidden">
-          <p className="text-pretty text-sm leading-relaxed text-muted">
-            {project.detail}
-          </p>
-        </div>
-      </div>
-
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        aria-expanded={open}
-        aria-controls={detailId}
-        className="mt-3 inline-flex w-fit items-center gap-1.5 font-mono text-xs text-accent transition-colors hover:text-accent-2"
-      >
-        <PlusIcon
-          className={`h-4 w-4 transition-transform duration-300 ${open ? "rotate-45" : ""}`}
-        />
-        {open ? "less" : "details"}
-      </button>
+      {/* View hint — purely visual; the overlay button below does the work. */}
+      <span className="mt-3 inline-flex w-fit items-center gap-1.5 font-mono text-xs text-accent transition-colors group-hover:text-accent-2">
+        view
+        <ArrowRightIcon className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+      </span>
 
       {/* Tech-stack tags */}
       <ul className="mt-auto flex flex-wrap gap-2 border-t border-line pt-5">
@@ -86,6 +69,14 @@ export default function ProjectCard({ project }: { project: Project }) {
           </li>
         ))}
       </ul>
+
+      {/* Full-card click target — kept last so it overlays the content. */}
+      <button
+        type="button"
+        onClick={onOpen}
+        aria-label={`View details for ${project.title}`}
+        className="absolute inset-0 cursor-pointer rounded-2xl"
+      />
     </article>
   );
 }

@@ -42,7 +42,7 @@ export default function Headshot() {
   }, []);
 
   return (
-    <div className="gradient-border relative mx-auto aspect-square w-44 overflow-hidden rounded-2xl sm:w-56 md:w-64 lg:w-72">
+    <div className="gradient-border relative mx-auto aspect-square w-40 overflow-hidden rounded-2xl sm:w-56 md:w-64 lg:w-72">
       {src ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img

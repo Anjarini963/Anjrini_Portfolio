@@ -6,7 +6,8 @@ import SocialLinks from "./SocialLinks";
 /**
  * Hero section. Carries the only two "loud" Sage Aurora touches — the corner
  * radial glow and the dotted blueprint grid — both confined here. Headshot
- * sits to the inline-end on desktop, on top on mobile.
+ * sits to the inline-end on desktop and on top on mobile, so the photo and the
+ * headline share the first screen instead of the photo being pushed below it.
  */
 export default function Hero() {
   return (
@@ -15,7 +16,7 @@ export default function Hero() {
           site-wide layer in page.tsx.) */}
       <div className="aurora-glow pointer-events-none absolute inset-0" aria-hidden />
 
-      <div className="relative mx-auto flex max-w-5xl flex-col gap-12 px-5 pb-20 pt-20 sm:px-8 sm:pb-28 sm:pt-28 md:flex-row md:items-center md:gap-16">
+      <div className="relative mx-auto flex max-w-5xl flex-col gap-8 px-5 pb-16 pt-14 sm:gap-12 sm:px-8 sm:pb-28 sm:pt-28 md:flex-row md:items-center md:gap-16">
         {/* Copy */}
         <div className="flex-1">
           <p className="mb-5 font-mono text-sm text-muted">
@@ -54,8 +55,9 @@ export default function Hero() {
           <SocialLinks className="mt-8" />
         </div>
 
-        {/* Headshot slot */}
-        <div className="shrink-0 md:order-last">
+        {/* Headshot slot — first on mobile (so it's visible without scrolling),
+            inline-end on desktop. */}
+        <div className="order-first shrink-0 md:order-last">
           <Headshot />
         </div>
       </div>
