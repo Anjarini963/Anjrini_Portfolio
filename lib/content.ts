@@ -86,6 +86,18 @@ export type Project = {
    * image area. See lib/shots.ts and components/Projects.tsx.
    */
   shots?: string[];
+  /**
+   * Small brand mark shown next to the title (card + modal). POPULATED
+   * AUTOMATICALLY from a `logo.*` file in public/projects/<slug>/ — do not set
+   * this by hand. Null when the project has no logo file.
+   */
+  logo?: string | null;
+  /**
+   * Optional external links shown as buttons in the detail modal — e.g. a demo
+   * video, a dataset, a repo. Each `kind` picks the icon; falls back to a
+   * generic external-link icon for anything unrecognised.
+   */
+  links?: { label: string; href: string; kind?: "video" | "dataset" | "repo" }[];
 };
 
 export const projects: Project[] = [
@@ -96,7 +108,7 @@ export const projects: Project[] = [
     summary:
       "An AI-powered Arabic sales-call coaching platform, designed and built in a single day.",
     detail:
-      "Won 1st place out of 100+ participants at a Replit-sponsored hackathon at Wadi Jeddah. Built end to end in a single day under competition constraints — scoping, AI integration, and a working interface, all shipped before the buzzer.",
+      "Won 1st place out of 100+ participants at a Replit-sponsored hackathon at Wadi Jeddah. Built end to end in a single day under competition constraints — scoping, AI integration, and a working interface, all shipped before the buzzer. Beyond per-rep coaching, it includes a manager dashboard for overseeing the sales agents' work: each rep's performance tracked over time with the metrics moving up or down (improvement or regression), plus access to the audio recordings of the underlying calls.",
     tags: ["AI", "Rapid Prototyping", "Hackathon Winner"],
     badge: "1st place · 100+ participants",
     featured: true,
@@ -108,9 +120,21 @@ export const projects: Project[] = [
     summary:
       "Natural-language querying over large procurement datasets via tool-based LLM agents.",
     detail:
-      "An AI-driven procurement analytics assistant: ask questions in plain language and get answers backed by real data. Handles data cleaning, time-based analysis, supplier and commodity insights, and exploratory forecasting — all through an interactive web interface powered by tool-using LLM agents.",
+      "An AI-driven procurement analytics assistant: ask questions in plain language and get answers backed by real data. Handles data cleaning, time-based analysis, supplier and commodity insights, and exploratory forecasting — all through an interactive web interface powered by tool-using LLM agents. Answers are grounded in the State of California's large-purchases dataset.",
     tags: ["FastAPI", "LangChain", "MongoDB", "OpenAI", "Analytics"],
     featured: true,
+    links: [
+      {
+        label: "Watch the demo",
+        href: "https://youtu.be/EaPWZX1na9Y",
+        kind: "video",
+      },
+      {
+        label: "Dataset (Kaggle)",
+        href: "https://www.kaggle.com/datasets/sohier/large-purchases-by-the-state-of-ca",
+        kind: "dataset",
+      },
+    ],
   },
   {
     slug: "fake-news-detector",

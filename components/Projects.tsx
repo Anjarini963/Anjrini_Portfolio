@@ -1,15 +1,16 @@
 import { projects } from "@/lib/content";
-import { getProjectShots } from "@/lib/shots";
+import { getProjectLogo, getProjectShots } from "@/lib/shots";
 import ProjectGallery from "./ProjectGallery";
 import SectionHeading from "./SectionHeading";
 
 /** The centerpiece — a responsive grid of clickable project cards. */
 export default function Projects() {
-  // Server component: read each project's screenshots from its folder at build
-  // time (public/projects/<slug>/). Empty/absent folder → no shots.
+  // Server component: read each project's screenshots and logo from its folder
+  // at build time (public/projects/<slug>/). Empty/absent folder → no shots.
   const withShots = projects.map((project) => ({
     ...project,
     shots: getProjectShots(project.slug),
+    logo: getProjectLogo(project.slug),
   }));
 
   return (

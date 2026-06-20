@@ -3,7 +3,13 @@
 import { useEffect } from "react";
 import type { Project } from "@/lib/content";
 import ProjectShots from "./ProjectShots";
-import { CloseIcon } from "./icons";
+import {
+  CloseIcon,
+  DatabaseIcon,
+  ExternalLinkIcon,
+  GitHubIcon,
+  PlayIcon,
+} from "./icons";
 
 /**
  * The "popped-out" detail view. Centers over a blurred backdrop. When the
@@ -99,9 +105,20 @@ export default function ProjectModal({
             </div>
           )}
 
-          <h3 className="mt-1 text-xl font-semibold leading-snug tracking-tight">
-            {project.title}
-          </h3>
+          <div className="mt-1 flex items-center gap-3">
+            {project.logo && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={project.logo}
+                alt=""
+                aria-hidden
+                className="h-10 w-10 shrink-0 rounded-lg"
+              />
+            )}
+            <h3 className="text-xl font-semibold leading-snug tracking-tight">
+              {project.title}
+            </h3>
+          </div>
 
           <p className="mt-2.5 text-pretty text-sm leading-relaxed text-muted">
             {project.summary}
@@ -110,6 +127,34 @@ export default function ProjectModal({
           <p className="mt-3 text-pretty text-sm leading-relaxed text-muted">
             {project.detail}
           </p>
+
+          {/* External links — demo video, dataset, repo, … */}
+          {project.links && project.links.length > 0 && (
+            <div className="mt-5 flex flex-wrap gap-2.5">
+              {project.links.map((link) => {
+                const Icon =
+                  link.kind === "video"
+                    ? PlayIcon
+                    : link.kind === "dataset"
+                      ? DatabaseIcon
+                      : link.kind === "repo"
+                        ? GitHubIcon
+                        : ExternalLinkIcon;
+                return (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-lg border border-line px-3.5 py-2 text-sm font-medium text-text transition-colors hover:border-accent hover:text-accent"
+                  >
+                    <Icon className="h-4 w-4" />
+                    {link.label}
+                  </a>
+                );
+              })}
+            </div>
+          )}
 
           {/* Tech-stack tags */}
           <ul className="mt-6 flex flex-wrap gap-2 border-t border-line pt-5">

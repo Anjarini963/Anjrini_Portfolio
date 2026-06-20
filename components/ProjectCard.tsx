@@ -44,9 +44,20 @@ export default function ProjectCard({
         )}
       </div>
 
-      <h3 className="mt-4 text-lg font-semibold leading-snug tracking-tight">
-        {project.title}
-      </h3>
+      <div className="mt-4 flex items-center gap-3">
+        {project.logo && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={project.logo}
+            alt=""
+            aria-hidden
+            className="h-9 w-9 shrink-0 rounded-lg"
+          />
+        )}
+        <h3 className="text-lg font-semibold leading-snug tracking-tight">
+          {project.title}
+        </h3>
+      </div>
 
       <p className="mt-2.5 text-pretty text-sm leading-relaxed text-muted">
         {project.summary}

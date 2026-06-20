@@ -5,12 +5,16 @@
  * server components (it's used by components/Projects.tsx, which is one). Never
  * import it from a "use client" file or it will break the client bundle.
  *
- * The folder convention is the single source of truth for screenshots:
+ * The folder convention is the single source of truth for a project's images:
  *
- *   public/projects/<slug>/   →  drop images here (png, jpg, jpeg, webp, avif, gif)
+ *   public/projects/<slug>/
+ *     ├── 01-dashboard.png   ← screenshots (carousel), shown in filename order
+ *     ├── 02-live-call.png
+ *     └── logo.svg           ← optional brand mark shown next to the title
  *
- * Files are shown in filename order, so prefix them to control the sequence,
- * e.g. 01-dashboard.png, 02-live-call.png, 03-scorecard.png.
+ * Screenshots are shown in filename order, so prefix them to control the
+ * sequence. A file named `logo.*` is treated as the project's logo, not a
+ * screenshot (so it never appears in the carousel).
  */
 import fs from "node:fs";
 import path from "node:path";
@@ -23,6 +27,13 @@ const IMAGE_EXTENSIONS = new Set([
   ".avif",
   ".gif",
 ]);
+
+/** The reserved basename for a project's logo mark (any image/svg extension). */
+const LOGO_BASENAME = "logo";
+
+function basename(name: string) {
+  return name.slice(0, name.length - path.extname(name).length).toLowerCase();
+}
 
 /**
  * Returns the web paths ("/projects/<slug>/<file>") of every image in a
@@ -42,7 +53,29 @@ export function getProjectShots(slug: string): string[] {
   }
 
   return entries
-    .filter((name) => IMAGE_EXTENSIONS.has(path.extname(name).toLowerCase()))
+    .filter(
+      (name) =>
+        IMAGE_EXTENSIONS.has(path.extname(name).toLowerCase()) &&
+        basename(name) !== LOGO_BASENAME // keep the logo out of the carousel
+    )
     .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))
     .map((name) => `/projects/${slug}/${name}`);
+}
+
+/**
+ * Returns the web path of a project's logo mark — a file named `logo.*` (svg,
+ * png, jpg, …) in public/projects/<slug>/ — or null when there isn't one.
+ */
+export function getProjectLogo(slug: string): string | null {
+  const dir = path.join(process.cwd(), "public", "projects", slug);
+
+  let entries: string[];
+  try {
+    entries = fs.readdirSync(dir);
+  } catch {
+    return null;
+  }
+
+  const logo = entries.find((name) => basename(name) === LOGO_BASENAME);
+  return logo ? `/projects/${slug}/${logo}` : null;
 }
