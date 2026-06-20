@@ -21,6 +21,17 @@ export const profile = {
   location: "Jeddah, Saudi Arabia",
 };
 
+/**
+ * Canonical absolute origin of the deployed site — NO trailing slash.
+ *
+ * Used for `metadataBase` (so OpenGraph/Twitter share images resolve to absolute
+ * URLs), the sitemap, and robots.txt. Update this once the real domain is known;
+ * the Vercel preview URL works as a stand-in until then. Can be overridden at
+ * build time via the NEXT_PUBLIC_SITE_URL env var without editing this file.
+ */
+export const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://abdullah-anjrini.vercel.app";
+
 export const links = {
   email: "abdullahanjarini@gmail.com",
   github: "https://github.com/anjarini963",

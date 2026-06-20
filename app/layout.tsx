@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
-import { profile } from "@/lib/content";
+import { profile, siteUrl } from "@/lib/content";
 import "./globals.css";
 
 const inter = Inter({
@@ -16,6 +16,8 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  // Resolves relative URLs (the generated OG/Twitter image) to absolute ones.
+  metadataBase: new URL(siteUrl),
   title: `${profile.name} — ${profile.role}`,
   description:
     "Abdullah Anjrini — Full-Stack Product Engineer building practical AI products and the backends behind them. CS (AI) graduate, MSc Finance in progress.",
@@ -23,7 +25,15 @@ export const metadata: Metadata = {
     title: `${profile.name} — ${profile.role}`,
     description:
       "Full-Stack Product Engineer shipping practical AI products and the backends behind them.",
+    url: siteUrl,
+    siteName: profile.name,
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${profile.name} — ${profile.role}`,
+    description:
+      "Full-Stack Product Engineer shipping practical AI products and the backends behind them.",
   },
 };
 
